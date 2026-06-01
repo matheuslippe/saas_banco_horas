@@ -1,0 +1,46 @@
+# =========================
+# DEPENDÊNCIAS (PESADAS)
+# =========================
+node_modules/
+front-banco-horas/node_modules/
+backend/node_modules/
+
+# =========================
+# VARIÁVEIS DE AMBIENTE (SEGURANÇA EXTREMA)
+# =========================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+
+# =========================
+# BUILD E CACHE DO FRONT-END (VITE/REACT)
+# =========================
+dist/
+dist-ssr/
+build/
+front-banco-horas/dist/
+*.local
+
+# =========================
+# BANCO DE DADOS E DOCKER LOCAL
+# =========================
+# Ignora qualquer pasta local usada para volume do Postgres, caso você mapeie uma
+pgdata/
+data/
+*.log
+
+# =========================
+# ARQUIVOS DO SISTEMA OPERACIONAL E EDITORES
+# =========================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
