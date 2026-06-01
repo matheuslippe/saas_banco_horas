@@ -30,6 +30,7 @@ front-banco-horas/dist/
 # Ignora qualquer pasta local usada para volume do Postgres, caso você mapeie uma
 pgdata/
 data/
+backups/
 *.log
 
 # =========================

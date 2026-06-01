@@ -24,7 +24,7 @@ export default function RegistroForm() {
   async function carregarRegistro() {
     try {
       const usuario = JSON.parse(localStorage.getItem('usuario') || '{}')
-      const { data } = await api.get(`/painel/${usuario.id}`)
+      const { data } = await api.get('/painel')
       const reg = data.registros.find((r) => r.id === id)
       if (reg) {
         setForm({

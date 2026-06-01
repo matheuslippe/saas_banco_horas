@@ -1,13 +1,13 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './Login'
 import Register from './Register'
+import EsqueciSenha from './EsqueciSenha'
+import ResetarSenha from './ResetarSenha'
 import Painel from './Painel'
 import RegistroForm from './RegistroForm'
-
-function ProtectedRoute({ children }) {
-  const token = localStorage.getItem('token')
-  return token ? children : <Navigate to="/login" replace />
-}
+import Planos from './Planos'
+import Perfil from './Perfil'
+import PrivateRoute from './components/PrivateRoute'
 
 export default function App() {
   return (
@@ -15,28 +15,46 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+        <Route path="/resetar-senha/:token" element={<ResetarSenha />} />
+        <Route
+          path="/planos"
+          element={
+            <PrivateRoute requireSubscription={false}>
+              <Planos />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/perfil"
+          element={
+            <PrivateRoute>
+              <Perfil />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/painel"
           element={
-            <ProtectedRoute>
+            <PrivateRoute>
               <Painel />
-            </ProtectedRoute>
+            </PrivateRoute>
           }
         />
         <Route
           path="/registros/novo"
           element={
-            <ProtectedRoute>
+            <PrivateRoute>
               <RegistroForm />
-            </ProtectedRoute>
+            </PrivateRoute>
           }
         />
         <Route
           path="/registros/:id"
           element={
-            <ProtectedRoute>
+            <PrivateRoute>
               <RegistroForm />
-            </ProtectedRoute>
+            </PrivateRoute>
           }
         />
         <Route path="*" element={<Navigate to="/login" replace />} />

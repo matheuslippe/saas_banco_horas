@@ -45,7 +45,10 @@ export default function Login() {
         <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
           Entrar
         </button>
-        <p className="text-center text-sm mt-4">
+        <p className="text-center text-sm mt-2">
+          <Link to="/esqueci-senha" className="text-gray-500 hover:text-blue-600 hover:underline">Esqueci minha senha</Link>
+        </p>
+        <p className="text-center text-sm mt-2">
           Não tem conta? <Link to="/register" className="text-blue-600 hover:underline">Cadastre-se</Link>
         </p>
       </form>

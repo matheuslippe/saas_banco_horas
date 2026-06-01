@@ -26,7 +26,7 @@ export default function Painel() {
 
   async function carregarDados() {
     try {
-      const { data } = await api.get(`/painel/${usuario.id}`)
+      const { data } = await api.get('/painel')
       setRegistros(data.registros)
       setSaldo(data.saldo)
     } catch {
@@ -56,6 +56,10 @@ export default function Painel() {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold text-zinc-100">Painel — {usuario.nome}</h1>
           <div className="flex gap-3">
+            <button onClick={() => navigate('/perfil')}
+              className="bg-zinc-700/50 text-zinc-200 px-4 py-2.5 rounded-2xl font-medium hover:bg-zinc-700 transition text-sm">
+              Perfil
+            </button>
             <button onClick={() => navigate('/registros/novo')}
               className="bg-zinc-100 text-zinc-900 px-5 py-2.5 rounded-2xl font-medium hover:bg-white transition">
               + Novo Registro
