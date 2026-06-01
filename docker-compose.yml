@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: saas_banco_horas_db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: banco_horas
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pg_data:/var/lib/postgresql/data
+
+  api:
+    build: ./backend
+    container_name: saas_banco_horas_api
+    restart: always
+    ports:
+      - "8080:3000"
+    environment:
+      DATABASE_URL: postgres://user:password@db:5432/banco_horas
+      JWT_SECRET: supersecret
+    depends_on:
+      - db
+
+volumes:
+  pg_data:
