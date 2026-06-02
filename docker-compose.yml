@@ -4,11 +4,11 @@ services:
     container_name: saas_banco_horas_db
     restart: always
     environment:
-      POSTGRES_USER: bd_matheuslippe
-      POSTGRES_PASSWORD: FHiLVgr9OSm6AtJU5WlDkK4G
-      POSTGRES_DB: db_banco_horas
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
-      - "5432:5433"
+      - "127.0.0.1:5432:5432"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - pg_data:/var/lib/postgresql/data
@@ -18,13 +18,16 @@ services:
     container_name: saas_banco_horas_api
     restart: always
     ports:
-      - "8080:3000"
+      - "127.0.0.1:8080:3000"
     environment:
-      DATABASE_URL: postgres://bd_matheuslippe:FHiLVgr9OSm6AtJU5WlDkK4G@db:5432/db_banco_horas
-      JWT_SECRET: ${JWT_SECRET:-CHANGE_ME_TO_A_STRONG_RANDOM_SECRET}
-      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-sk_test_placeholder}
-      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-whsec_placeholder}
-      BACK_URL: https://suzanna-unhusbanded-gala.ngrok-free.dev
+      NODE_ENV: production
+      DATABASE_URL: postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+      JWT_SECRET: ${JWT_SECRET}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+      DOMAIN_URL: ${DOMAIN_URL}
+      BACK_URL: ${DOMAIN_URL}
+      FRONTEND_URL: ${DOMAIN_URL}
     depends_on:
       - db
 
@@ -34,13 +37,23 @@ services:
     restart: always
     environment:
       DB_HOST: db
-      DB_USER: bd_matheuslippe
-      DB_PASSWORD: FHiLVgr9OSm6AtJU5WlDkK4G
-      DB_NAME: db_banco_horas
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     volumes:
       - ./backups:/backups
     depends_on:
       - db
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: saas_banco_horas_cloudflared
+    restart: always
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - api
 
 volumes:
   pg_data:
